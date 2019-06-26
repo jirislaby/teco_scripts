@@ -1,0 +1,60 @@
+#!/usr/bin/perl -w
+use strict;
+use IO::Socket;
+use RRDs;
+use Data::Dumper;
+
+my $file = '/home/xslaby/barak.rrd';
+
+my %srcs = (
+        'temp_fit' => 'PTOPENI.TSTATFIT.DISTEMP.GTSAP1_DISPLAY_VALUE',
+        'temp_garaz' => 'P1PP.DISTEMPGARAZ.GTSAP1_DISPLAY_VALUE',
+        'temp_obyvak' => 'PTOPENI.TSTATOBYVAK.TIMEPROGCONTROL.GTSAP1_TPW_ROOMTEMP',
+        'temp_kuchV' => 'P1NP.DISTEMPKUCHYNEV.GTSAP1_DISPLAY_VALUE',
+        'temp_dig' => 'P1NP.DISTEMPDIGESTOR.GTSAP1_DISPLAY_VALUE',
+        'temp_prac' => 'PTOPENI.TSTATPRACOVNA.DISTEMP.GTSAP1_DISPLAY_VALUE',
+        'temp_koup1' => 'PTOPENI.TSTAT1NPKOUP.DISTEMP.GTSAP1_DISPLAY_VALUE',
+        'temp_tech' => 'PTOPENI.TSTATTECHNICKA.DISTEMP.GTSAP1_DISPLAY_VALUE',
+        'temp_det_jz' => 'PTOPENI.TSTATDETSKYJZ.DISTEMP.GTSAP1_DISPLAY_VALUE',
+        'temp_det_j' => 'PTOPENI.TSTATDETSKYJ.DISTEMP.GTSAP1_DISPLAY_VALUE',
+        'temp_loz' => 'PTOPENI.TSTATLOZNICE.DISTEMP.GTSAP1_DISPLAY_VALUE',
+        'temp_koup2' => undef,
+        'temp_chodba2' => undef,
+        'temp_out' => 'PEXT.DISTEMPOUT.GTSAP1_DISPLAY_VALUE',
+        'svit' => 'PEXT.DISTEMPSVIT.GTSAP1_DISPLAY_VALUE',
+        'kotel' => 'P1PP.RKOTEL.GTSAP1_RELAY_ONOFF',
+);
+
+my $socket = IO::Socket::INET->new(PeerAddr => 'localhost', PeerPort => 5010,
+	Proto => "tcp", Type => SOCK_STREAM) or
+		die "Couldn't connect: $@\n";
+
+my @template;
+my @vals;
+
+foreach my $rrd_name (keys %srcs) {
+	my $entry = $srcs{$rrd_name};
+	next unless defined $entry;
+	my $req = "GET:$entry";
+
+	print $socket "$req\n";
+	my $val = <$socket>;
+	$val =~ s/\s*$//;
+	if (rindex($val, "$req,") == 0) {
+		push @template, $rrd_name;
+		push @vals, substr($val, length($req) + 1);
+	} else {
+		print STDERR "cannot obtain $rrd_name ($entry)\n";
+	}
+}
+
+close($socket);
+
+my @cmdline = ($file, '-t', join(':', @template), 'N:' . join(':', @vals));
+#print Dumper(\@cmdline);
+
+RRDs::update(@cmdline);
+my $ERR = RRDs::error;
+die "RRD ERROR: $ERR\n" if ($ERR);
+
+1;
