@@ -1,0 +1,48 @@
+#!/bin/bash
+
+set -xe
+
+RRD=~/barak.rrd
+
+rrdcreate "$RRD" --start 20181116 --step 1m \
+	DS:temp_fit:GAUGE:15m:0:50 \
+	DS:temp_garaz:GAUGE:15m:0:50 \
+	DS:temp_obyvak:GAUGE:15m:0:50 \
+	DS:temp_kuchV:GAUGE:15m:0:50 \
+	DS:temp_dig:GAUGE:15m:0:50 \
+	DS:temp_prac:GAUGE:15m:0:50 \
+	DS:temp_koup1:GAUGE:15m:0:50 \
+	DS:temp_tech:GAUGE:15m:0:50 \
+	DS:temp_det_jz:GAUGE:15m:0:50 \
+	DS:temp_det_j:GAUGE:15m:0:50 \
+	DS:temp_loz:GAUGE:15m:0:50 \
+	DS:temp_koup2:GAUGE:15m:0:50 \
+	DS:temp_chodba2:GAUGE:15m:0:50 \
+	DS:temp_out:GAUGE:15m:-30:50 \
+	DS:temp_res1:GAUGE:15m:-30:50 \
+	DS:temp_res2:GAUGE:15m:-30:50 \
+	DS:temp_res3:GAUGE:15m:-30:50 \
+	DS:temp_res4:GAUGE:15m:-30:50 \
+	DS:temp_res5:GAUGE:15m:-30:50 \
+	DS:svit:GAUGE:15m:0:200 \
+	DS:kotel:GAUGE:15m:0:1 \
+	DS:res1:GAUGE:15m:U:U \
+	DS:res2:GAUGE:15m:U:U \
+	DS:res3:GAUGE:15m:U:U \
+	DS:res4:GAUGE:15m:U:U \
+	DS:res5:GAUGE:15m:U:U \
+	DS:der_prac:DDERIVE:15m:U:U \
+	DS:der_obyv:DDERIVE:15m:U:U \
+	DS:der_loz:DDERIVE:15m:U:U \
+	RRA:AVERAGE:0.2:1m:31d \
+	RRA:MIN:0.2:1m:31d \
+	RRA:MAX:0.2:1m:31d \
+	RRA:AVERAGE:0.2:10m:62d \
+	RRA:AVERAGE:0.2:1h:2y \
+	RRA:MIN:0.2:1h:1y \
+	RRA:MAX:0.2:1h:1y \
+	RRA:MIN:0.2:1h:2y \
+	RRA:MAX:0.2:1h:2y \
+	# nothing
+
+ls -lh "$RRD"
