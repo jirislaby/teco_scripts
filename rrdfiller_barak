@@ -44,7 +44,7 @@ foreach my $rrd_name (keys %srcs) {
 		push @template, $rrd_name;
 		push @vals, substr($val, length($req) + 1);
 	} else {
-		print STDERR "cannot obtain $rrd_name ($entry)\n";
+		print STDERR "cannot obtain $rrd_name ($entry), got:\n\t$val\n";
 	}
 }
 
