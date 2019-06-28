@@ -13,7 +13,7 @@ my $socket = IO::Socket::INET->new(PeerAddr => $host, PeerPort => 5010,
 print $socket "GETFILE:$file\n";
 
 my $rqlen = length "GETFILE:$file\[";
-my $datalen;
+my $more;
 
 do {
 	my $cont;
@@ -21,7 +21,7 @@ do {
 
 #print "XXXCONT1='$cont'\n";
 
-	$datalen = '';
+	my $datalen = '';
 	while (1) {
 		my $byte;
 		read $socket, $byte, 1;
@@ -29,18 +29,22 @@ do {
 		$datalen .= $byte;
 	}
 
+	$more = $datalen;
 	# skip '='
 #print "XXXDATALEN=$datalen\n";
 	read $socket, $cont, 1;
 #print "XXXCONT2='$cont'\n";
 
-	read $socket, $cont, $datalen;
-	print $cont;
+	while ($datalen) {
+		my $real = read $socket, $cont, $datalen;
+		print $cont;
+		$datalen -= $real;
+	}
 #print "XXXCONT3='", substr($cont, 0, 16), "'\n";
 
 	# skip '\r\n'
 	read $socket, $cont, 2;
 #print "XXXCONT4='$cont'\n";
-} while ($datalen);
+} while ($more);
 
 close($socket);
