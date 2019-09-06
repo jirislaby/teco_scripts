@@ -20,6 +20,8 @@ $width = 1300 if ($width < 0 || $width > 4096);
 $height = 600 if ($height < 0 || $height > 4096);
 
 my @cmdline = ('-', '--left-axis-format', '%.1lf',
+	'--right-axis', '1:0',
+	'--right-axis-format', '%.1lf',
 	'-w', $width, '-h', $height,
 	'-s', $stime,
 );
