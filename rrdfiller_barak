@@ -55,6 +55,11 @@ my @cmdline = ($file, '-t', join(':', @template), 'N:' . join(':', @vals));
 
 RRDs::update(@cmdline);
 my $ERR = RRDs::error;
+if ($ERR && $ERR eq 'could not lock RRD') {
+	print "retrying due to lock\n";
+	RRDs::update(@cmdline);
+	$ERR = RRDs::error;
+}
 die "RRD ERROR: $ERR\n" if ($ERR);
 
 1;
