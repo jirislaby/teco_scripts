@@ -56,12 +56,16 @@ close($socket);
 my @cmdline = ($file, '-t', join(':', @template), 'N:' . join(':', @vals));
 #print Dumper(\@cmdline);
 
-RRDs::update(@cmdline);
-my $ERR = RRDs::error;
-if ($ERR && $ERR eq 'could not lock RRD') {
+my $err;
+my $cnt = 3;
+
+while ($cnt-- > 0) {
 	RRDs::update(@cmdline);
-	$ERR = RRDs::error;
+	$err = RRDs::error;
+	last if (!$err || $err ne 'could not lock RRD');
+	sleep 1;
 }
-die "RRD ERROR: $ERR\n" if ($ERR);
+
+die "RRD error: $err\n" if ($err);
 
 1;
