@@ -29,6 +29,8 @@ my @cmdline = ('-', '--left-axis-format', '%.1lf',
 my @defs = (
         [ 'temp_fit' ],
         [ 'temp_garaz' ],
+        [ 'temp_cirk' ],
+        [ 'temp_TUV' ],
         [ 'temp_obyvak' ],
         [ 'temp_kuchV' ],
         [ 'temp_dig' ],
@@ -56,6 +58,7 @@ foreach my $def (@defs) {
 my @cdefs = (
 	[ "kotel15", "kotel,15,+" ],
 	[ "svit_div", "svit,7,/" ],
+	[ "TUV_div", "temp_TUV,4,/" ],
 );
 
 foreach my $def (@cdefs) {
@@ -66,6 +69,8 @@ my @graphs = (
 	[ 'Venkovní',      'temp_out',     'AREA',  '000000' ],
 	[ 'Fitness',       'temp_fit',     'LINE1', 'a00000' ],
 	[ 'Garáž',         'temp_garaz',   'LINE1', 'f00000' ],
+	[ 'Cirkulace',     'temp_cirk',    'LINE1', 'f080a0' ],
+	[ 'TUV',           'TUV_div',      'LINE1', 'f000a0' ],
 	[ 'Obývák',        'temp_obyvak',  'LINE1', '006000' ],
 	[ 'Kuchyně V',     'temp_kuchV',   'LINE1', '008000' ],
 	[ 'Digestoř',      'temp_dig',     'LINE1', '00a000' ],

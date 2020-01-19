@@ -21,6 +21,8 @@ my %srcs = (
         'temp_koup2' => 'PTOPENI.TSTAT2NPKOUP.DISTEMP.GTSAP1_DISPLAY_VALUE',
         'temp_chodba2' => undef,
         'temp_out' => 'PEXT.DISTEMPOUT.GTSAP1_DISPLAY_VALUE',
+        'temp_cirk' => 'P1PP.DISTEMPVODACIRK.GTSAP1_DISPLAY_VALUE',
+        'temp_TUV' => 'P1PP.DISTEMPVYMENIK.GTSAP1_DISPLAY_VALUE',
         'svit' => 'PEXT.DISTEMPSVIT.GTSAP1_DISPLAY_VALUE',
         'kotel' => 'P1PP.RKOTEL.GTSAP1_RELAY_ONOFF',
 );

@@ -19,6 +19,8 @@ rrdcreate "$RRD" --start 20181116 --step 1m \
 	DS:temp_koup2:GAUGE:15m:0:50 \
 	DS:temp_chodba2:GAUGE:15m:0:50 \
 	DS:temp_out:GAUGE:15m:-30:50 \
+	DS:temp_cirk:GAUGE:15m:-30:50 \
+	DS:temp_TUV:GAUGE:15m:-30:100 \
 	DS:temp_res1:GAUGE:15m:-30:50 \
 	DS:temp_res2:GAUGE:15m:-30:50 \
 	DS:temp_res3:GAUGE:15m:-30:50 \
