@@ -11,7 +11,7 @@ my $RRD = '/home/xslaby/barak.rrd';
 my $cg = new CGI;
 
 my $stime = $cg->param('stime') || 'now-8month';
-my $etime = $cg->param('etime');
+my $etime = $cg->param('etime') || 'now';
 
 my $width = $cg->param('width') || 1300;
 my $height = $cg->param('height') || 600;
@@ -23,7 +23,7 @@ my @cmdline = ('-', '--left-axis-format', '%.1lf',
 	'--right-axis', '1:0',
 	'--right-axis-format', '%.1lf',
 	'-w', $width, '-h', $height,
-	'-s', $stime,
+	'-s', $stime, '-e', $etime,
 );
 
 my @defs = (
