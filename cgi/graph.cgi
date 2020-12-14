@@ -81,6 +81,7 @@ my @graphs = (
 	[ 'Dětský J',      'temp_det_j',   'LINE1', '0000a0' ],
 	[ 'Ložnice',       'temp_loz',     'LINE1', '7070ff' ],
 	[ 'Koupelna 2NP',  'temp_koup2',   'LINE1', '0000ff' ],
+	[ 'Chodba 2NP',	   'temp_chodba2', 'LINE1', '4080b0' ],
 	[ 'Kotel',         'kotel15',      'LINE1', '808080' ],
 	[ 'Svit',          'svit_div',     'LINE1', '4080a0' ],
 #	[ 'Der. pracovna', 'der_prac',     'LINE1', '004000' ],
